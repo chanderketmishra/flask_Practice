@@ -1,10 +1,17 @@
+
 name: Flask CI-CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - staging
+    tags:
+      - 'v*'
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - staging
 
 jobs:
   build-and-test:
@@ -43,15 +50,24 @@ jobs:
       - name: Run Flask Tests
         run: python -m pytest -v
 
-      - name: Prepare Staging Files
+      - name: Prepare Build Files
         run: |
           mkdir -p staging
           cp app.py staging/
           cp requirements.txt staging/
 
       - name: Upload Staging Artifact
+        if: github.ref == 'refs/heads/staging'
         uses: actions/upload-artifact@v4
         with:
           name: flask-staging-build
           path: staging/
           retention-days: 7
+
+      - name: Upload Production Release Artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: flask-production-release
+          path: staging/
+          retention-days: 30
