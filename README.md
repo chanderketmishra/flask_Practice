@@ -129,6 +129,68 @@ Form pre-filled with student details.
 MIT License
 
 ---
+## CI/CD Pipeline Documentation
 
+### Project Overview
+This project demonstrates CI/CD automation for a Python Flask application using Jenkins and GitHub Actions.
+
+### 1. Jenkins CI/CD Pipeline
+
+Jenkins is used to automate the build, testing, and staging preparation process.
+
+**Pipeline Stages:**
+
+1. **Build:** Installs Python dependencies using Docker and pip.
+2. **Test:** Starts MongoDB and executes unit tests using pytest.
+3. **Deploy:** Creates a staging directory and copies application files into it.
+
+**Prerequisites:**
+- Jenkins
+- Docker
+- GitHub repository
+- Python 3.11
+- MongoDB
+
+**Pipeline Configuration:**
+- Source: GitHub repository
+- Branch: main
+- Pipeline script: Jenkinsfile
+
+### 2. GitHub Actions CI/CD Pipeline
+
+GitHub Actions automates the testing and staging artifact preparation process.
+
+**Workflow File:**
+`.github/workflows/flask-ci-cd.yml`
+
+**Workflow Steps:**
+
+1. Checkout Repository
+2. Setup Python 3.11
+3. Install Dependencies
+4. Run Flask Tests using pytest
+5. Prepare Staging Files
+6. Upload Staging Artifact
+
+**Artifact Name:** `flask-staging-build`
+
+**Trigger:** Push and pull requests targeting the main branch.
+
+### 3. Execution Results
+
+- Jenkins Build Stage: Successful
+- Jenkins Test Stage: Successful
+- Jenkins Deploy Stage: Successful
+- GitHub Actions Workflow: Successful
+- Flask Unit Tests: Passed
+- Staging Artifact: Generated successfully
+
+### 4. Repository
+
+GitHub Repository: https://github.com/chanderketmishra/flask_Practice
+
+### 5. Important Note
+
+The current Jenkins Deploy stage prepares staging files in the Jenkins workspace. GitHub Actions uploads the staging files as an artifact. A live staging or production server deployment requires additional server configuration and deployment credentials.
 
 
