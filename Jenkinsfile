@@ -72,56 +72,29 @@ pipeline {
     }
 
     post {
-        always {
-            sh '''
-                docker rm -f flask-mongo 2>/dev/null || true
-                docker network rm flask-ci-net 2>/dev/null || true
-            '''
-        }
+    always {
+        sh '''
+            docker rm -f flask-mongo 2>/dev/null || true
+            docker network rm flask-ci-net 2>/dev/null || true
+        '''
+    }
 
-        success {
-                    success {
-            echo 'Pipeline completed successfully!'
+    success {
+        echo 'Pipeline completed successfully!'
+        emailext(
+            to: 'heroviredcluster@gmail.com',
+            subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "Build successful. Check: ${env.BUILD_URL}"
+        )
+    }
 
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Flask CI/CD pipeline completed successfully.\nBuild URL: ${env.BUILD_URL}",
-                to: 'heroviredcluster@gmail.com'
-            )
-        }
-
-        failure {
-            echo 'Pipeline failed!'
-
-            emailext(
-                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Flask CI/CD pipeline failed.\nPlease check the Jenkins console output.\nBuild URL: ${env.BUILD_URL}",
-                to: 'heroviredcluster@gmail.com'
-            )
-        }
-        }
-
-        failure {
-                    success {
-            echo 'Pipeline completed successfully!'
-
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Flask CI/CD pipeline completed successfully.\nBuild URL: ${env.BUILD_URL}",
-                to: 'heroviredcluster@gmail.com'
-            )
-        }
-
-        failure {
-            echo 'Pipeline failed!'
-
-            emailext(
-                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Flask CI/CD pipeline failed.\nPlease check the Jenkins console output.\nBuild URL: ${env.BUILD_URL}",
-                to: 'heroviredcluster@gmail.com'
-            )
-        }
-        }
+    failure {
+        echo 'Pipeline failed!'
+        emailext(
+            to: 'heroviredcluster@gmail.com',
+            subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "Build failed. Check: ${env.BUILD_URL}"
+        )
     }
 }
-
+}
