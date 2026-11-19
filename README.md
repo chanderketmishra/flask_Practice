@@ -174,7 +174,7 @@ GitHub Actions automates the testing and staging artifact preparation process.
 
 **Artifact Name:** `flask-staging-build`
 
-**Trigger:** Push and pull requests targeting the main branch.
+**Trigger:** Push to the `staging` branch.
 
 ### 3. Execution Results
 
