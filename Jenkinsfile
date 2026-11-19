@@ -7,14 +7,14 @@ pipeline {
             steps {
                 echo 'Installing Python dependencies'
                 sh 'python3 --version'
-                sh 'pip3 install -r requirements.txt'
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running Flask application tests'
-                sh 'pip3 install pytest'
+                sh 'python3 -m pip install pytest'
                 sh 'python3 -m pytest -v'
             }
         }
