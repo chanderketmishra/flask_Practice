@@ -3,19 +3,29 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-                echo 'Installing Python dependencies'
-                sh 'python3 --version'
-                sh 'python3 -m pip install -r requirements.txt'
+       
+stage('Build') {
+    steps {
+        echo 'Creating Python virtual environment'
+        sh 'python3 -m venv .venv'
+        sh '.venv/bin/python -m pip install --upgrade pip'
+        sh '.venv/bin/python -m pip install -r requirements.txt'
+    }
+}
+
             }
         }
 
         stage('Test') {
-            steps {
-                echo 'Running Flask application tests'
-                sh 'python3 -m pip install pytest'
-                sh 'python3 -m pytest -v'
+            
+stage('Test') {
+    steps {
+        echo 'Running Flask application tests'
+        sh '.venv/bin/python -m pip install pytest'
+        sh '.venv/bin/python -m pytest -v'
+    }
+}
+
             }
         }
 
